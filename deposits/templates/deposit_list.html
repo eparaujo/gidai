@@ -1,0 +1,60 @@
+{% extends 'base.html'  %}
+
+{% block title %}
+GIDAI - Depósitos - Meta Financeira
+{% endblock %}
+{% block content %}
+
+{% include 'components/_goal_metrics.html' %}
+<div class="mb-4"></div>
+ 
+<div class="row mb-3">
+
+    <div class="col-md-6">
+        <form method="get" action="{% url 'deposit_list' %}">
+            <div class="input-group">
+                <input type="text" class="form-control" name="goal" placeholder="Depósito" value="{{ request.GET.goal}}">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="col-md-6">
+        <a href="{% url 'deposit_create' %}" class="btn btn-success float-end">
+            <i class="bi bi-plus"></i>Depósito
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Meta</th>
+                <th>Valor</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for deposit in deposits %}
+                <tr>
+                    <td> {{ deposit.id }} </td>                    
+                    <td> {{ deposit.goal }} </td>
+                    <td> {{ deposit.value}} </td>
+                    <td> 
+                        <a href="{% url 'deposit_detail' deposit.id %}" class="btn btn-info btn-sm">
+                            <i class="bi bi-eye"></i>
+                        </a>                        
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include 'components/_pagination.html' %}
+
+{% endblock %}

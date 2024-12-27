@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    GIDAI - Home 
+{% endblock %}
+
+{% block content%}
+
+  {% include 'components/_revenue_metrics.html' %} <!-- aqui estamos incluindo o componente html de métricas de receita -->
+  {% include 'components/_goal_metrics.html' %}
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <div class="row mt-4 justify-content-center"> <!-- linha de tamanho 4 -->
+
+    <div class="col-md-6 text-center"> <!-- coluna dentro da linha para abrigar um gráfico -->
+      <h5 class="text-center mb-3">Valores de Despesas (Últimos 30 dias)</h5>
+      <canvas id="dailyExpensesChart"></canvas>
+    </div>
+
+    <div class="col-md-6 text-center"> <!-- coluna dentro da linha para abrigar um gráfico -->
+      <h5 class="text-center mb-3">Valores de Receitas (Últimos 30 dias)</h5>
+      <canvas id="dailyRevenuesChart"></canvas>
+    </div>
+    
+    <!-- o script abaixo, monta o gráfico recebendo os dados da view -->
+    <script> 
+       document.addEventListener("DOMContentLoaded", function() {
+        var dailyExpensesData = JSON.parse('{{ daily_expenses_data|safe }}'); 
+        var dailyRevenuesData = JSON.parse('{{ daily_revenues_data|safe }}');
+        
+        
+        var ctxDailyExpenses = document.getElementById('dailyExpensesChart').getContext('2d');
+        var dailyExpensesChart = new Chart(ctxDailyExpenses, {
+          type: 'line',
+          data: {
+            labels: dailyExpensesData.dates,
+            datasets: [{
+              label: 'Valor em Despesas',
+              data: dailyExpensesData.values,
+              fill: false,
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 2,
+              tension: 0.5
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+        
+
+       var ctxDailyRevenues = document.getElementById('dailyRevenuesChart').getContext('2d');
+       var dailyRevenuesChart = new Chart(ctxDailyRevenues, {
+          type: 'bar',
+          data: {
+            labels: dailyRevenuesData.dates,
+            datasets: [{
+              label: 'Receitas',
+              data: dailyRevenuesData.values,
+              backgroundColor: 'rgba(255, 99, 132, 0.6)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      });
+
+    </script>
+
+  </div>
+
+  <!-- gráficos de metas financeiras -->
+
+  <div class="row mt-4 justify-content-center">
+
+    <div class="col-md-6 text-center"> <!-- coluna dentro da linha para abrigar um gráfico -->
+      <h5 class="text-center mb-3">Depósitos em Metas Financeiras</h5>
+      <canvas id="depositByChart"></canvas>
+    </div>
+
+    <div class="col-md-6 text-center"> <!-- coluna dentro da linha para abrigar um gráfico -->
+      <h5 class="text-center mb-3">Despesas por Categoria</h5>
+      <div class="mb-4"></div>
+      <div class="embed-responsive embed-responsive-1by1" style="width: 400px; display: inline-block;">
+        <canvas id="expensesByCategory" class="embed-responsive-item"></canvas>
+      </div>
+    </div>
+
+    <script>
+       document.addEventListener("DOMContentLoaded", function() {
+        var dailyDeposits = JSON.parse('{{ daily_deposits|safe }}'); 
+        //var expensesByCategory = JSON.parse('{{ expense_by_category|safe }}');
+        
+        
+        var ctxDeposit = document.getElementById('depositByChart').getContext('2d');
+        var depositByChart = new Chart(ctxDeposit, {
+          type: 'line',
+          data: {
+            labels: dailyDeposits.dates,
+            datasets: [{
+              label: 'Receitas',
+              data: dailyDeposits.values,
+              backgroundColor: 'rgba(0, 255, 0, 1)',
+              borderColor: 'rgba(0, 255, 0, 1)',
+              borderWidth: 2,
+              tension: 0.5
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }        
+        });
+
+        //var ctxExpenseByCategory = document.getElementById('expensesByCategory').getContext('2d');
+        //  var expensesByCategory = new Chart(ctxExpenseByCategory, {
+        //    type: 'doughnut',
+        //    data: {
+        //      labels: Object.keys(expensesByCategory),
+        //      datasets: [{
+        //        data: Object.values(expensesByCategory),
+        //        borderWidth: 1
+        //      }]
+        //    },
+        //    options: {
+        //      plugins: {
+        //        legend: {
+        //          display: false
+        //        },
+        //      }
+        //    }
+        //  });
+
+
+      });
+
+    </script>
+  </div>
+{% endblock %}  

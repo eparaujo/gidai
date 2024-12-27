@@ -1,0 +1,51 @@
+<div class="card mt-4">
+    <div class="card-body">
+        <div class="row">
+
+            <div class="col-md-3">
+                
+                <div class="card bg-success">
+                    <div card="card-body">
+                        <h5 class="card-title">Total de Despesas</h5>
+                        <p class="card-text text-white font-weight-bold display-6">R$ {{ expense_metrics.total_expense }}</p>
+                    </div>
+                </div>
+            
+            </div>
+
+            <div class="col-md-3">
+                
+                <div class="card bg-primary">
+                    <div card="card-body">
+                        <h5 class="card-title">Total de Receitas</h5>
+                        <p class="card-text text-white font-weight-bold display-6">R$ {{ expense_metrics.total_revenue }}</p>
+                    </div>
+                </div>
+            
+            </div>
+
+            <div class="col-md-3">
+                
+                <div class="card bg-danger">
+                    <div card="card-body">
+                        <h5 class="card-title">Saldo Receitas - Despesas</h5>
+                        <p class="card-text text-white font-weight-bold display-6">R$ {{ expense_metrics.balance }}</p>
+                    </div>
+                </div>
+            
+            </div>            
+
+            <div class="col-md-3">
+                
+                <div class="card bg-warning">
+                    <div card="card-body">
+                        <h5 class="card-title">Objetivo Financeiro</h5>
+                        <p class="card-text text-white font-weight-bold display-6">R$ {{ expense_metrics.total_goal }}</p>
+                    </div>
+                </div>
+            
+            </div>
+
+        </div>
+    </div>
+</div>

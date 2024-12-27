@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h3 class="display-6">Detalhes do Depósito</h3>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">{{ object.goal }}</h3>
+            <p class="card-text">Depósito: <stong> {{ object.value }} </stong></p>            
+        </div>
+    </div>
+    <a href="{% url 'deposit_list' %}" class="btn btn-secondary mt-3">Cancelar e Voltar</a>
+</div>
+
+{% endblock %}

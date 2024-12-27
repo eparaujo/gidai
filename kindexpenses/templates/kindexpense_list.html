@@ -1,0 +1,66 @@
+{% extends 'base.html'  %}
+
+{% block title %}
+GIDAI - Cadastro de Tipo de Despesas
+{% endblock %}
+
+{% block content %}
+
+<div class="row mb-3">
+
+    <div class="col-md-6">
+        <form method="get" action="{% url 'kindexpense_list' %}">
+            <div class="input-group">
+                <input type="text" class="form-control" name="name" placeholder="Tipo de Despesa" value="{{ request.GET.name}}">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="col-md-6">
+        <a href="{% url 'kindexpense_create' %}" class="btn btn-success float-end">
+            <i class="bi bi-plus"></i>Novo Tipo de Despesa
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Tipo de Despesa</th>
+                <th>Descrição</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for kindexpense in kindexpenses %}
+                <tr>
+                    <td> {{ kindexpense.id }} </td>
+                    <td> {{ kindexpense.name }} </td>
+                    <td> {{ kindexpense.description }} </td>
+                    <td> 
+                        <a href="{% url 'kindexpense_detail' kindexpense.id %}" class="btn btn-info btn-sm">
+                            <i class="bi bi-eye"></i>
+                        </a>                        
+                     
+                        <a href="{% url 'kindexpense_update' kindexpense.id %}" class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        
+                        <a href="{% url 'kindexpense_delete' kindexpense.id %}" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include 'components/_pagination.html' %}
+
+{% endblock %}

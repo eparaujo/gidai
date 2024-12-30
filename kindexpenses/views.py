@@ -12,7 +12,7 @@ class KindExpenseListView(LoginRequiredMixin, ListView):
     model = models.KindExpense
     template_name = 'kindexpense_list.html' 
     context_object_name ='kindexpenses'
-    paginate_by = 10
+    paginate_by = 15
 
     def get_queryset(self):
         queryset = super().get_queryset()

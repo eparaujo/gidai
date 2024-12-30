@@ -1,5 +1,5 @@
 from django.db.models.query import QuerySet
-from django.shortcuts import render
+from django.shortcuts import render, redirect 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from . import models, forms, serializers
 from app import metrics
@@ -7,6 +7,8 @@ from django.views.generic import ListView, CreateView, DetailView, DeleteView, U
 from django.urls import reverse_lazy
 from rest_framework import generics
 from django.contrib import messages
+from django.views.generic.edit import DeleteView
+from django.db.models import ProtectedError
 
 
 class GoalListView(LoginRequiredMixin, ListView):
@@ -49,6 +51,14 @@ class GoalDeleteView(LoginRequiredMixin, DeleteView):
     model = models.Goal
     template_name = 'goal_delete.html'
     success_url = reverse_lazy('goal_list')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            return super().delete(request, *args, **kwargs)
+        except ProtectedError:
+            messages.error(request, 'Esta Meta Financeira não pode ser excluída, pois está relacionada com Entradas ou Saídas')
+            return redirect(self.success_url)
 
 
 class GoalCreateListApiView(generics.ListCreateAPIView):

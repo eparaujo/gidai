@@ -6,6 +6,7 @@ from app import metrics
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 from rest_framework import generics
+from django.contrib import messages
 
 
 class GoalListView(LoginRequiredMixin, ListView):
